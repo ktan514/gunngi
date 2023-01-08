@@ -1,9 +1,8 @@
 package com.ktgames.gunngi.game.koma;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.ArrayList;
 
-public class KomaComm {
+public abstract class KomaComm implements KomaAction {
 	// 駒のID
 	public static final int KOMA_TYPE_SUI = 1;
 	public static final int KOMA_TYPE_TAISHO = 2;
@@ -19,7 +18,7 @@ public class KomaComm {
 	public static final int KOMA_TYPE_YUMI = 12;
 	public static final int KOMA_TYPE_TUTU = 13;
 	public static final int KOMA_TYPE_BOUSYOU = 14;
-	
+
 	// 駒の名前(デバッグ用)
 	public static final String KOMA_NAME_SUI = "帥";
 	public static final String KOMA_NAME_TAISHO = "大";
@@ -40,19 +39,22 @@ public class KomaComm {
 	public static final int KOMA_COLOR_NONE = -1;
 	public static final int KOMA_COLOR_BLACK = 0;
 	public static final int KOMA_COLOR_WHITE = 1;
-	
+
 	// フィールド
-	private int id;			// ユニークな駒ID
-	private int type;		// 駒の種類
-	private String name;	// 駒名(デバッグ表示用)
-	private int color;		// 駒の色
-	
+	private int id; // ユニークな駒ID
+	private int type; // 駒の種類
+	private String name; // 駒名(デバッグ表示用)
+	private int color; // 駒の色
+
+	protected ArrayList<Integer[]> movements; // 可動領域
+
 	private static int uniqueIdMaster = 1;
-	
+
 	/**
 	 * コンストラクタ
-	 * @param type 駒のタイプ
-	 * @param name 駒の名前
+	 * 
+	 * @param type  駒のタイプ
+	 * @param name  駒の名前
 	 * @param color 駒の色
 	 */
 	public KomaComm(int type, String name, int color) {
@@ -60,33 +62,38 @@ public class KomaComm {
 		this.type = type;
 		this.name = name;
 		this.color = color;
-		
+		this.movements = new ArrayList<>();
+
+		// 駒IDを更新。
 		uniqueIdMaster++;
 		if (uniqueIdMaster == Integer.MAX_VALUE) {
 			uniqueIdMaster = 1;
 		}
 	}
-	
+
 	/**
 	 * 駒IDを比較し一致するか判定する。
+	 * 
 	 * @param id 駒ID
 	 * @return 比較結果(true:一致,false:不一致)
 	 */
 	public boolean isKomaId(int id) {
 		return this.id == id;
 	}
-	
+
 	/**
 	 * 駒の色を比較し一致するか判定する。
+	 * 
 	 * @param color 駒の色
 	 * @return 比較結果(true:一致,false:不一致)
 	 */
 	public boolean isColor(int color) {
 		return this.color == color;
 	}
-	
+
 	/**
 	 * 駒の名前を取得する。
+	 * 
 	 * @return 駒の名前
 	 */
 	public String getName() {
@@ -95,25 +102,10 @@ public class KomaComm {
 
 	/**
 	 * 駒IDを取得する。
+	 * 
 	 * @return 駒ID
 	 */
 	public int getId() {
 		return this.id;
-	}
-	
-	/**
-	 * 駒の山から駒IDが一致する駒を探して返す。
-	 * @param komas 全駒
-	 * @param id 駒ID
-	 * @return 駒(見つからなかった場合のためOptionalで包む)
-	 */
-	public static Optional<KomaComm> findKoma(List<KomaComm> komas, int id) {
-		for (int i = 0; i < komas.size(); i++) {
-			KomaComm komaTemp = komas.get(i);
-			if (komaTemp.isKomaId(id)) {
-				return Optional.of(komaTemp);
-			}
-		}
-		return Optional.empty();
 	}
 }

@@ -1,6 +1,6 @@
 package com.ktgames.gunngi.game.koma;
 
-public class KomaUma extends KomaComm implements KomaAction {
+public class KomaUma extends KomaComm {
 
 	public KomaUma(int color) {
 		super(KOMA_TYPE_UMA, KOMA_NAME_UMA, color);
@@ -8,9 +8,8 @@ public class KomaUma extends KomaComm implements KomaAction {
 	}
 
 	@Override
-	public void funcA() {
-		// TODO 自動生成されたメソッド・スタブ
-
+	public boolean checkMovement(int pos, int color, int tuke) {
+		return false;
 	}
 
 	@Override

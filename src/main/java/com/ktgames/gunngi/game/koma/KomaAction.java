@@ -1,7 +1,9 @@
 package com.ktgames.gunngi.game.koma;
 
 public interface KomaAction {
-	public abstract void funcA();
+	public abstract boolean checkMovement(int pos, int color, int tuke);
+
 	public abstract void funcB();
+
 	public abstract void funcC();
 }
